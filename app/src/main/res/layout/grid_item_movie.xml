@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_width="160dp"
-    android:layout_height="160dp"
-    android:id="@+id/grid_item_textView"
-    android:gravity="center_horizontal">
+    android:background="@drawable/shadowback">
 
-</ImageView>
+    <ImageView
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/grid_item_textView"
+    android:paddingTop="7dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:id="@+id/movie_name_textview"
+        android:gravity="center"
+        android:textStyle="bold" />
+
+</LinearLayout>

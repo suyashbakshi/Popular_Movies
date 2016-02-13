@@ -7,12 +7,23 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MoviesFragment"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_main"
+    android:orientation="vertical">
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:id="@+id/movie_progress_bar"
+        android:paddingTop="10dp"/>
     <GridView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/movieGridView"
-        android:numColumns="2"></GridView>
+        android:numColumns="auto_fit"
+        android:verticalSpacing="5dp"
+        android:stretchMode="columnWidth"
+        android:horizontalSpacing="3dp"/>
 
 </LinearLayout>
