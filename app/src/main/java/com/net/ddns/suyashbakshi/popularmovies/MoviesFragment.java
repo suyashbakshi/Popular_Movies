@@ -137,7 +137,7 @@ public class MoviesFragment extends Fragment {
     private void updateMoviesList() {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String mSortOrder = sharedPreferences.getString(getString(R.string.pref_sort_key),"");
+        String mSortOrder = sharedPreferences.getString(getString(R.string.pref_sort_key),getString(R.string.pref_sort_popular_param));
         Log.v("Current Sort Order :",mSortOrder);
 
         FetchMoviesTask fetchMoviesTask = new FetchMoviesTask();
@@ -155,6 +155,7 @@ public class MoviesFragment extends Fragment {
             pb.setVisibility(View.VISIBLE);
             super.onPreExecute();
         }
+
 
         @Override
         protected String[] doInBackground(String... params) {

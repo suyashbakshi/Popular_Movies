@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.net.ddns.suyashbakshi.popularmovies"
+        applicationId "com.net.ddns.suyashbakshi.popularmovies1"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1

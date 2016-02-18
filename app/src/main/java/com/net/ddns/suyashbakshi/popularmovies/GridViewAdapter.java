@@ -37,7 +37,7 @@ public class GridViewAdapter extends ArrayAdapter<String> {
         }
 
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.grid_item_textView);
-        TextView textView = (TextView)convertView.findViewById(R.id.movie_name_textview);
+//        TextView textView = (TextView)convertView.findViewById(R.id.movie_name_textview);
 
         String imageURL = null;
 
@@ -58,7 +58,7 @@ public class GridViewAdapter extends ArrayAdapter<String> {
         Log.v("ADAPTER VALUE STRING", valueString);
 
         Picasso.with(getContext()).load(posterURI).into(imageView);
-        textView.setText(splitter[0]);
+//        textView.setText(splitter[0]);
 
         return convertView;
     }

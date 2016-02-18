@@ -58,7 +58,7 @@ public class DetailFragment extends Fragment {
 
             movieTitle.setText(split[0]);
             releasedate.setText(getFriendlyDateformat(split[1]));
-            rating.setText(split[2]);
+            rating.setText(split[2]+" /10");
             description.setText(split[4]);
         }
         return rootView;
