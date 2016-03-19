@@ -37,6 +37,10 @@
                 android:value="com.net.ddns.suyashbakshi.popularmovies.MainActivity" />
         </activity>
         <activity android:name=".GridViewAdapter" />
+        
+        <provider
+            android:authorities="com.net.ddns.suyashbakshi.popularmovies"
+            android:name=".DataBase.MovieProvider"/>
     </application>
 
 </manifest>

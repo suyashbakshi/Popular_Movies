@@ -46,9 +46,13 @@ public class MoviesFragment extends Fragment {
 
 //    private ArrayAdapter mAdapter;
 
+
     private GridViewAdapter mAdapter;
+//    ProgressBar pb;
+
 
     public MoviesFragment() {
+//        pb = (ProgressBar)getView().findViewById(R.id.movie_progress_bar);
     }
 
     @Override
@@ -98,6 +102,7 @@ public class MoviesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
 
@@ -140,154 +145,167 @@ public class MoviesFragment extends Fragment {
         String mSortOrder = sharedPreferences.getString(getString(R.string.pref_sort_key),getString(R.string.pref_sort_popular_param));
         Log.v("Current Sort Order :",mSortOrder);
 
-        FetchMoviesTask fetchMoviesTask = new FetchMoviesTask();
-        fetchMoviesTask.execute(mSortOrder);
-    }
-
-
-    public class FetchMoviesTask extends AsyncTask<String, Void, String[]> {
-
         ProgressBar pb = (ProgressBar)getView().findViewById(R.id.movie_progress_bar);
-
-
-        @Override
-        protected void onPreExecute() {
-            pb.setVisibility(View.VISIBLE);
-            super.onPreExecute();
-        }
-
-
-        @Override
-        protected String[] doInBackground(String... params) {
-
-            HttpURLConnection urlConnection = null;
-            BufferedReader reader = null;
-            String movieJsonString = null;
-            int numOfMovies = 20;
-
-            //String sortingOrder = "popularity.desc";
-            String apikey = "28b3bcbe51accd00a86cceaf70a0c2f0";
-
-            try{
-                final String BASE_URL = "https://api.themoviedb.org/3/discover/movie?";
-                final String API_PARAM = "api_key";
-                final String SORT_PARAM = "sort_by";
-
-                Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                        .appendQueryParameter(SORT_PARAM, params[0])
-                        .appendQueryParameter(API_PARAM, apikey)
-                        .build();
-                URL url = new URL(builtUri.toString());
-                Log.v("BUILT URI : ",builtUri.toString());
-
-                urlConnection = (HttpURLConnection)url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer stringBuffer = new StringBuffer();
-
-                if(inputStream == null)
-                    movieJsonString = null;
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-
-                while ((line = reader.readLine()) != null){
-                    stringBuffer.append(line + "\n");
-                }
-
-                if (stringBuffer.length() == 0){
-                    return null;
-                }
-
-                movieJsonString = stringBuffer.toString();
-                Log.v("JSON STRING : ",movieJsonString);
-
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                movieJsonString = null;
-                e.printStackTrace();
-            }
-            finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        Log.v("Buffered Reader", "Error in Closing");
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            try {
-                return getMovieDataFromJson(movieJsonString,numOfMovies);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-
-
-        private String[] getMovieDataFromJson(String movieJsonString, int numOfMovies) throws JSONException{
-
-            final String RESULTS = "results";
-            final String ORIGINAL_TITLE = "original_title";
-            final String RELEASE_DATE = "release_date";
-            final String VOTE_AVERAGE = "vote_average";
-            final String IMAGE_URI = "poster_path";
-            final String OVERVIEW = "overview";
-
-            JSONObject movieJson = new JSONObject(movieJsonString);
-            JSONArray movieArray = movieJson.getJSONArray(RESULTS);
-
-            String[] results = new String[numOfMovies];
-            for (int i = 0; i< movieArray.length(); i++){
-                String title;
-                String release_date;
-                String vote_average;
-                String image_url;
-                String overview;
-
-                JSONObject aMovie = movieArray.getJSONObject(i);
-
-                title = aMovie.getString(ORIGINAL_TITLE);
-                release_date = aMovie.getString(RELEASE_DATE);
-                vote_average = aMovie.getString(VOTE_AVERAGE);
-                image_url = aMovie.getString(IMAGE_URI);
-                overview = aMovie.getString(OVERVIEW);
-
-                String movieString = title + "/" + release_date + "/" + vote_average + "" + image_url + "/" + overview;
-
-                results[i] = movieString;
-            }
-
-            for(String s: results){
-                Log.v("RESULTS : ",s);
-            }
-            return results;
-        }
-
-        @Override
-        protected void onPostExecute(String[] result) {
-            super.onPostExecute(result);
-            if (result!=null){
-                mAdapter.clear();
-                for (String movies : result){
-                    mAdapter.add(movies);
-                }
-                pb.setVisibility(View.GONE);
-                mAdapter.notifyDataSetChanged();
-
-            }
-
-        }
+        pb.setVisibility(View.VISIBLE);
+        FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(getContext(),mAdapter);
+        fetchMoviesTask.execute(mSortOrder);
+        pb.setVisibility(View.GONE);
     }
+
+
+//    public class FetchMoviesTask extends AsyncTask<String, Void, String[]> {
+//
+//        ProgressBar pb = (ProgressBar)getView().findViewById(R.id.movie_progress_bar);
+//
+//
+//        @Override
+//        protected void onPreExecute() {
+//            pb.setVisibility(View.VISIBLE);
+//            super.onPreExecute();
+//        }
+//
+//
+//        @Override
+//        protected String[] doInBackground(String... params) {
+//
+//            HttpURLConnection urlConnection = null;
+//            BufferedReader reader = null;
+//            String movieJsonString = null;
+//            int numOfMovies = 20;
+//
+//            //String sortingOrder = "popularity.desc";
+//            String apikey = "28b3bcbe51accd00a86cceaf70a0c2f0";
+//
+//            try{
+//                final String BASE_URL = "https://api.themoviedb.org/3/discover/movie?";
+//                final String API_PARAM = "api_key";
+//                final String SORT_PARAM = "sort_by";
+//
+//                Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+//                        .appendQueryParameter(SORT_PARAM, params[0])
+//                        .appendQueryParameter(API_PARAM, apikey)
+//                        .build();
+//                URL url = new URL(builtUri.toString());
+//                Log.v("BUILT URI : ",builtUri.toString());
+//
+//                urlConnection = (HttpURLConnection)url.openConnection();
+//                urlConnection.setRequestMethod("GET");
+//                urlConnection.connect();
+//
+//                InputStream inputStream = urlConnection.getInputStream();
+//                StringBuffer stringBuffer = new StringBuffer();
+//
+//                if(inputStream == null)
+//                    movieJsonString = null;
+//                reader = new BufferedReader(new InputStreamReader(inputStream));
+//
+//                String line;
+//
+//                while ((line = reader.readLine()) != null){
+//                    stringBuffer.append(line + "\n");
+//                }
+//
+//                if (stringBuffer.length() == 0){
+//                    return null;
+//                }
+//
+//                movieJsonString = stringBuffer.toString();
+//                Log.v("JSON STRING : ",movieJsonString);
+//
+//
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                movieJsonString = null;
+//                e.printStackTrace();
+//            }
+//            finally {
+//                if (urlConnection != null) {
+//                    urlConnection.disconnect();
+//                }
+//                if (reader != null) {
+//                    try {
+//                        reader.close();
+//                    } catch (IOException e) {
+//                        Log.v("Buffered Reader", "Error in Closing");
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//
+//            try {
+//                return getMovieDataFromJson(movieJsonString,numOfMovies);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//            return null;
+//        }
+//
+//
+//
+//        private String[] getMovieDataFromJson(String movieJsonString, int numOfMovies) throws JSONException{
+//
+//            final String RESULTS = "results";
+//            final String ORIGINAL_TITLE = "original_title";
+//            final String RELEASE_DATE = "release_date";
+//            final String VOTE_AVERAGE = "vote_average";
+//            final String IMAGE_URI = "poster_path";
+//            final String OVERVIEW = "overview";
+//            final String BACKDROP_PATH = "backdrop_path";
+//
+//            JSONObject movieJson = new JSONObject(movieJsonString);
+//            JSONArray movieArray = movieJson.getJSONArray(RESULTS);
+//
+//            String[] results = new String[movieArray.length()];
+//            for (int i = 0; i< movieArray.length(); i++){
+//                String title;
+//                String release_date;
+//                String vote_average;
+//                String image_url;
+//                String overview;
+//                String backdrop_path;
+//
+//                JSONObject aMovie = movieArray.getJSONObject(i);
+//
+//                title = aMovie.getString(ORIGINAL_TITLE);
+//                release_date = aMovie.getString(RELEASE_DATE);
+//                vote_average = aMovie.getString(VOTE_AVERAGE);
+//                image_url = aMovie.getString(IMAGE_URI);
+//                overview = aMovie.getString(OVERVIEW);
+//                backdrop_path = aMovie.getString(BACKDROP_PATH);
+//
+//                String movieString = title + "/" + release_date + "/" + vote_average + "" + image_url + "/" + overview + "" + backdrop_path;
+//
+//                results[i] = movieString;
+//            }
+//
+//            for(String s: results){
+//                Log.v("RESULTS : ",s);
+//            }
+//            return results;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String[] result) {
+//            super.onPostExecute(result);
+//            if (result!=null){
+//                mAdapter.clear();
+//                for (String movies : result){
+//                    mAdapter.add(movies);
+//                }
+//                pb.setVisibility(View.GONE);
+//                mAdapter.notifyDataSetChanged();
+//
+//            }
+//
+//        }
+//    }
+//
+//    public void showProgressBar(){
+//        pb.setVisibility(View.VISIBLE);
+//    }
+//    public void hideProgressBar(){
+//        pb.setVisibility(View.GONE);
+//    }
 }

@@ -1,7 +1,9 @@
 package com.net.ddns.suyashbakshi.popularmovies;
 
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
@@ -41,22 +43,31 @@ public class DetailFragment extends Fragment {
         if (intent!=null && intent.hasExtra(Intent.EXTRA_TEXT)){
 
             String mDetails = intent.getStringExtra(Intent.EXTRA_TEXT);
-
             String split[] = mDetails.split("/");
 
-            ImageView moviePoster = (ImageView)rootView.findViewById(R.id.detail_imageview);
-            TextView movieTitle = (TextView)rootView.findViewById(R.id.detail_movie_title_textview);
+
+//            ImageView moviePoster = (ImageView)rootView.findViewById(R.id.detail_imageview);
+            ImageView backdrop = (ImageView)rootView.findViewById(R.id.backdrop_imageview);
+//            TextView movieTitle = (TextView)rootView.findViewById(R.id.detail_movie_title_textview);
             TextView description = (TextView)rootView.findViewById(R.id.detail_description_textview);
             TextView releasedate = (TextView)rootView.findViewById(R.id.detail_date_textview);
             TextView rating = (TextView)rootView.findViewById(R.id.detail_rating_textview);
+            CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) rootView.findViewById(R.id.toolbar_layout);
 
-            String imageURL = split[3];
-            String BASE_POSTER_URI = "http://image.tmdb.org/t/p/w342/";
-            String posterURI = BASE_POSTER_URI + imageURL;
-            Log.v("POSTER URI :", posterURI);
-            Picasso.with(getActivity()).load(posterURI).into(moviePoster);
+            collapsingToolbar.setTitle(split[0].toUpperCase());
+//            String imageURL = split[3];
+            String backdropURL = split[5];
 
-            movieTitle.setText(split[0]);
+//            String BASE_POSTER_URI = "http://image.tmdb.org/t/p/w342/";
+            String BASE_BACKDROP_URI = "http://image.tmdb.org/t/p/w780/";
+//            String posterURI = BASE_POSTER_URI + backdropURL;
+
+            String backdropURI = BASE_BACKDROP_URI + backdropURL;
+            Log.v("POSTER URI :", backdropURI);
+            Picasso.with(getActivity()).load(backdropURI).into(backdrop);
+//            Picasso.with(getActivity()).load(backdropURI).into(backdrop);
+
+//            movieTitle.setText(split[0]);
             releasedate.setText(getFriendlyDateformat(split[1]));
             rating.setText(split[2]+" /10");
             description.setText(split[4]);
