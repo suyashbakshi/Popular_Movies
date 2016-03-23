@@ -40,7 +40,14 @@
         
         <provider
             android:authorities="com.net.ddns.suyashbakshi.popularmovies"
-            android:name=".DataBase.MovieProvider"/>
+            android:name=".DataBase.MovieProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.popularmovies.SUYASH"/>
     </application>
+    
+    <permission android:name="com.popularmovies.SUYASH"
+        android:protectionLevel="dangerous"
+        android:label="SUYASH"/>
 
 </manifest>

@@ -25,7 +25,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
         onPreferenceChange(preference, PreferenceManager
                 .getDefaultSharedPreferences(preference.getContext())
-                .getString(preference.getKey(),""));
+                .getString(preference.getKey(),getString(R.string.pref_sort_popular_param)));
     }
 
     @Override

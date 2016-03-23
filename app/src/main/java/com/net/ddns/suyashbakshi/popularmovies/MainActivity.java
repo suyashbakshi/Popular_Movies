@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,11 +16,23 @@ import com.squareup.picasso.Picasso;
 
 public class MainActivity extends ActionBarActivity {
 
+    private final String MOVIESFRAGMENT_TAG = "MTAG";
+    private String mSort = "initial";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
+        Log.v("PROBLEM_OnCreateMain","RUN");
+//        mSort = Utility.getPreferredSort(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction()
+                    .add(new MoviesFragment(), MOVIESFRAGMENT_TAG)
+                    .commit();
+        }
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
@@ -49,11 +62,27 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent settingsIntent = new Intent(getApplicationContext(),SettingsActivity.class);
+            Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(settingsIntent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String sort = Utility.getPreferredSort(getApplicationContext());
+        if(sort != null && !sort.equals(mSort)){
+            MoviesFragment mf = (MoviesFragment)getSupportFragmentManager().findFragmentByTag(MOVIESFRAGMENT_TAG);
+
+            if(null!= mf){
+                Log.v("PROBLEM_OnResumeMain","RUN");
+                mf.onSortChanged();
+            }
+            mSort = sort;
+        }
+        Log.v("PROBLEM_OnResumeMain","END");
     }
 }

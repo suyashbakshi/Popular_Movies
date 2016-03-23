@@ -35,16 +35,17 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 MoviesContract.SortEntry.TABLE_NAME + " (" + MoviesContract.SortEntry._ID + "), " +
 
                 "UNIQUE (" + MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + ", "+
-                MoviesContract.MoviesEntry.COLUMN_SORT_KEY + ") ON CONFLICT REPLACE);";
+                MoviesContract.MoviesEntry.COLUMN_SORT_KEY + ") ON CONFLICT IGNORE);";
 
 
         final String SQL_CREATE_SORT_TABLE = "CREATE TABLE "+ MoviesContract.SortEntry.TABLE_NAME + " ("+
                 MoviesContract.SortEntry._ID + " INTEGER PRIMARY KEY," +
                 MoviesContract.SortEntry.COLUMN_SORT_VALUE + " TEXT UNIQUE NOT NULL );";
 
+
+
         db.execSQL(SQL_CREATE_MOVIES_TABLE);
         db.execSQL(SQL_CREATE_SORT_TABLE);
-
     }
 
     @Override

@@ -10,13 +10,13 @@
     tools:showIn="@layout/activity_main"
     android:orientation="vertical">
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:id="@+id/movie_progress_bar"
-        android:paddingTop="10dp"/>
+    <!--<ProgressBar-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:id="@+id/movie_progress_bar"-->
+        <!--android:paddingTop="10dp"/>-->
     <GridView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

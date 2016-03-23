@@ -1,16 +1,16 @@
 package com.net.ddns.suyashbakshi.popularmovies;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,40 +19,42 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.net.ddns.suyashbakshi.popularmovies.DataBase.MoviesContract;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MoviesFragment extends Fragment {
+public class MoviesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-//    private ArrayAdapter mAdapter;
-
-
+    private static final int MOVIES_LOADER = 0;
     private GridViewAdapter mAdapter;
-//    ProgressBar pb;
+
+    private static final String[] MOVIE_COLUMNS = {
+            MoviesContract.MoviesEntry.TABLE_NAME + "." + MoviesContract.MoviesEntry._ID,
+            MoviesContract.MoviesEntry.COLUMN_ORIGINAL_TITLE,
+            MoviesContract.MoviesEntry.COLUMN_RELEASE_DATE,
+            MoviesContract.MoviesEntry.COLUMN_VOTE_AVERAGE,
+            MoviesContract.MoviesEntry.COLUMN_POSTER_PATH,
+            MoviesContract.MoviesEntry.COLUMN_OVERVIEW,
+            MoviesContract.MoviesEntry.COLUMN_BACKDROP_PATH,
+            MoviesContract.MoviesEntry.COLUMN_MOVIE_ID
+    };
+
+    static final int COL_MOVIE_TABLE_ID = 0;
+    static final int COL_ORIGINAL_TITLE = 1;
+    static final int COL_RELEASE_DATE = 2;
+    static final int COL_VOTE_AVERAGE = 3;
+    static final int COL_POSTER_PATH = 4;
+    static final int COL_OVERVIEW = 5;
+    static final int COL_BACKDROP_PATH = 6;
+    static final int COL_MOVIE_ID = 7;
 
 
     public MoviesFragment() {
-//        pb = (ProgressBar)getView().findViewById(R.id.movie_progress_bar);
     }
 
     @Override
@@ -69,243 +71,119 @@ public class MoviesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+
     }
+
+//    @Override
+//    public void onStart() {
+//        if (!Utility.isOnline(getContext())) {
+//            Snackbar.make(getView(), R.string.no_internet_view, Snackbar.LENGTH_INDEFINITE)
+//                    .setCallback(new Snackbar.Callback() {
+//                        @Override
+//                        public void onDismissed(Snackbar snackbar, int event) {
+//                            super.onDismissed(snackbar, event);
+//                            if (event == DISMISS_EVENT_MANUAL) {
+//                                snackbar.show();
+//                            }
+//                        }
+//                    }).show();
+//        }
+//        else {
+//            updateMoviesList();
+////            getLoaderManager().initLoader(MOVIES_LOADER,null,this);
+//        }
+//        super.onStart();
+//    }
 
     @Override
-    public void onStart() {
-        if(isOnline()) {
-            updateMoviesList();
-        }
-        else{
-            Snackbar.make(getView(), R.string.no_internet_view, Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Retry", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                           if(isOnline()) {
-                               updateMoviesList();
-                           }
-                        }
-                    }).show();
-        }
-        super.onStart();
-    }
-
-    private boolean isOnline() {
-        ConnectivityManager connectivityManager = (ConnectivityManager)getContext()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-
-        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-        return isConnected;
+    public void onActivityCreated(Bundle savedInstanceState) {
+        getLoaderManager().initLoader(MOVIES_LOADER, null, this);
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Log.v("PROBLEM_OnCreateView","RUN");
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
+//        String sortValue = Utility.getPreferredSort(getActivity());
 
-//        String[] movieArray = {"Inception", "Wolf Of Wall Street", "Interstellar", "Antman"};
-//        List<String> movieList = new ArrayList<String>(Arrays.asList(movieArray));
 
-//        mAdapter = new ArrayAdapter<String>(getActivity(),
-//                R.layout.grid_item_movie,
-//                R.id.grid_item_textView,
-//                new ArrayList<String>());
+//        TODO: A check will be given here when the favorite table is added. If sortValue is Favorite, we will generate the URI for favorite table
+//        TODO: and the cursor from favorite table will be used to initialize the adapter.
+//        Uri movieForSort = MoviesContract.MoviesEntry.buildMovieSort(sortValue);
+//        Cursor cur = getActivity().getContentResolver().query(movieForSort,null,null,null,null);
 
-        mAdapter = new GridViewAdapter(getActivity(),new ArrayList<String>());
+        mAdapter = new GridViewAdapter(getActivity(), null, 0);
 
 
         GridView gridView = (GridView) rootView.findViewById(R.id.movieGridView);
         gridView.setAdapter(mAdapter);
 
-
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String mdetails = mAdapter.getItem(position).toString();
-                Log.v("Details Print ", mdetails);
-//                String[] splitted = mdetails.split("/");
-//                String imageURL = splitted[3];
-//                Log.v("URL ", imageURL);
-                Intent detailIntent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT, mdetails);
-                startActivity(detailIntent);
+
+                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+
+                if (cursor != null) {
+
+                    Intent detailIntent = new Intent(getActivity(), DetailActivity.class)
+                            .setData(MoviesContract.MoviesEntry.buildMovieSortWithId(Utility.getPreferredSort(getActivity()),
+                                    cursor.getLong(COL_MOVIE_ID)));
+                    startActivity(detailIntent);
+                }
             }
         });
-
         return rootView;
     }
 
 
-    private void updateMoviesList() {
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String mSortOrder = sharedPreferences.getString(getString(R.string.pref_sort_key),getString(R.string.pref_sort_popular_param));
-        Log.v("Current Sort Order :",mSortOrder);
-
-        ProgressBar pb = (ProgressBar)getView().findViewById(R.id.movie_progress_bar);
-        pb.setVisibility(View.VISIBLE);
-        FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(getContext(),mAdapter);
-        fetchMoviesTask.execute(mSortOrder);
-        pb.setVisibility(View.GONE);
+    void onSortChanged(){
+        Log.v("PROBLEM_OnSortChanged","RUN");
+        updateMoviesList();
+        getLoaderManager().restartLoader(MOVIES_LOADER,null,this);
     }
 
+    private void updateMoviesList() {
 
-//    public class FetchMoviesTask extends AsyncTask<String, Void, String[]> {
-//
-//        ProgressBar pb = (ProgressBar)getView().findViewById(R.id.movie_progress_bar);
-//
-//
-//        @Override
-//        protected void onPreExecute() {
-//            pb.setVisibility(View.VISIBLE);
-//            super.onPreExecute();
-//        }
-//
-//
-//        @Override
-//        protected String[] doInBackground(String... params) {
-//
-//            HttpURLConnection urlConnection = null;
-//            BufferedReader reader = null;
-//            String movieJsonString = null;
-//            int numOfMovies = 20;
-//
-//            //String sortingOrder = "popularity.desc";
-//            String apikey = "28b3bcbe51accd00a86cceaf70a0c2f0";
-//
-//            try{
-//                final String BASE_URL = "https://api.themoviedb.org/3/discover/movie?";
-//                final String API_PARAM = "api_key";
-//                final String SORT_PARAM = "sort_by";
-//
-//                Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-//                        .appendQueryParameter(SORT_PARAM, params[0])
-//                        .appendQueryParameter(API_PARAM, apikey)
-//                        .build();
-//                URL url = new URL(builtUri.toString());
-//                Log.v("BUILT URI : ",builtUri.toString());
-//
-//                urlConnection = (HttpURLConnection)url.openConnection();
-//                urlConnection.setRequestMethod("GET");
-//                urlConnection.connect();
-//
-//                InputStream inputStream = urlConnection.getInputStream();
-//                StringBuffer stringBuffer = new StringBuffer();
-//
-//                if(inputStream == null)
-//                    movieJsonString = null;
-//                reader = new BufferedReader(new InputStreamReader(inputStream));
-//
-//                String line;
-//
-//                while ((line = reader.readLine()) != null){
-//                    stringBuffer.append(line + "\n");
-//                }
-//
-//                if (stringBuffer.length() == 0){
-//                    return null;
-//                }
-//
-//                movieJsonString = stringBuffer.toString();
-//                Log.v("JSON STRING : ",movieJsonString);
-//
-//
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                movieJsonString = null;
-//                e.printStackTrace();
-//            }
-//            finally {
-//                if (urlConnection != null) {
-//                    urlConnection.disconnect();
-//                }
-//                if (reader != null) {
-//                    try {
-//                        reader.close();
-//                    } catch (IOException e) {
-//                        Log.v("Buffered Reader", "Error in Closing");
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//
-//            try {
-//                return getMovieDataFromJson(movieJsonString,numOfMovies);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//            return null;
-//        }
-//
-//
-//
-//        private String[] getMovieDataFromJson(String movieJsonString, int numOfMovies) throws JSONException{
-//
-//            final String RESULTS = "results";
-//            final String ORIGINAL_TITLE = "original_title";
-//            final String RELEASE_DATE = "release_date";
-//            final String VOTE_AVERAGE = "vote_average";
-//            final String IMAGE_URI = "poster_path";
-//            final String OVERVIEW = "overview";
-//            final String BACKDROP_PATH = "backdrop_path";
-//
-//            JSONObject movieJson = new JSONObject(movieJsonString);
-//            JSONArray movieArray = movieJson.getJSONArray(RESULTS);
-//
-//            String[] results = new String[movieArray.length()];
-//            for (int i = 0; i< movieArray.length(); i++){
-//                String title;
-//                String release_date;
-//                String vote_average;
-//                String image_url;
-//                String overview;
-//                String backdrop_path;
-//
-//                JSONObject aMovie = movieArray.getJSONObject(i);
-//
-//                title = aMovie.getString(ORIGINAL_TITLE);
-//                release_date = aMovie.getString(RELEASE_DATE);
-//                vote_average = aMovie.getString(VOTE_AVERAGE);
-//                image_url = aMovie.getString(IMAGE_URI);
-//                overview = aMovie.getString(OVERVIEW);
-//                backdrop_path = aMovie.getString(BACKDROP_PATH);
-//
-//                String movieString = title + "/" + release_date + "/" + vote_average + "" + image_url + "/" + overview + "" + backdrop_path;
-//
-//                results[i] = movieString;
-//            }
-//
-//            for(String s: results){
-//                Log.v("RESULTS : ",s);
-//            }
-//            return results;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String[] result) {
-//            super.onPostExecute(result);
-//            if (result!=null){
-//                mAdapter.clear();
-//                for (String movies : result){
-//                    mAdapter.add(movies);
-//                }
-//                pb.setVisibility(View.GONE);
-//                mAdapter.notifyDataSetChanged();
-//
-//            }
-//
-//        }
-//    }
-//
-//    public void showProgressBar(){
-//        pb.setVisibility(View.VISIBLE);
-//    }
-//    public void hideProgressBar(){
-//        pb.setVisibility(View.GONE);
-//    }
+        String mSortOrder = Utility.getPreferredSort(getActivity());
+
+        FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(getContext(), mAdapter);
+        fetchMoviesTask.execute(mSortOrder);
+        Log.v("PROBLEM_FetchTaskEnd", "RUN");
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
+
+//        TODO: A check will be given here when the favorite table is added. If sortValue is Favorite, we will generate the URI for favorite table
+//        TODO: and the cursor from favorite table will be used to initialize the adapter.
+
+        String sortValue = Utility.getPreferredSort(getContext());
+
+        Uri movieForSortUri = MoviesContract.MoviesEntry.buildMovieSort(sortValue);
+
+        return new CursorLoader(getActivity(),
+                movieForSortUri,
+                MOVIE_COLUMNS,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+        mAdapter.swapCursor(data);
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mAdapter.swapCursor(null);
+    }
 }

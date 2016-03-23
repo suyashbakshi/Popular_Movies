@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * Created by Suyash on 2/27/2016.
@@ -158,9 +159,11 @@ public class MovieProvider extends ContentProvider {
             case MOVIE: {
                 long _id = db.insert(MoviesContract.MoviesEntry.TABLE_NAME, null, values);
 
-                if (_id > 0)
+                if (_id > 0) {
                     retUri = MoviesContract.MoviesEntry.buildMoviesUri(_id);
-                else
+                    Log.v("ROW_INSERTED", String.valueOf(retUri));
+                }
+                    else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
 
@@ -168,8 +171,10 @@ public class MovieProvider extends ContentProvider {
             case SORT: {
                 long _id = db.insert(MoviesContract.SortEntry.TABLE_NAME, null, values);
 
-                if (_id > 0)
+                if (_id > 0) {
                     retUri = MoviesContract.SortEntry.buildSortUri(_id);
+                    Log.v("ROW_INSERTED", String.valueOf(retUri));
+                }
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
@@ -192,10 +197,10 @@ public class MovieProvider extends ContentProvider {
 
         switch (match){
             case MOVIE:
-                rowsDeleted = db.delete(MoviesContract.MoviesEntry.TABLE_NAME,selection,selectionArgs);
+                rowsDeleted = db.delete(MoviesContract.MoviesEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case SORT:
-                rowsDeleted = db.delete(MoviesContract.SortEntry.TABLE_NAME,selection,selectionArgs);
+                rowsDeleted = db.delete(MoviesContract.SortEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown Uri " + uri);
@@ -244,6 +249,8 @@ public class MovieProvider extends ContentProvider {
                 try {
                     for (ContentValues value : values) {
                         long _id = db.insert(MoviesContract.MoviesEntry.TABLE_NAME, null, value);
+                        Uri muri = MoviesContract.MoviesEntry.buildMoviesUri(_id);
+                        Log.v("MOVIE_URI", String.valueOf(muri));
                         if (_id != -1) {
                             returnCount++;
                         }
