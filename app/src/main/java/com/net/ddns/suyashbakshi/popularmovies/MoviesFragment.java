@@ -32,6 +32,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
     private static final int MOVIES_LOADER = 0;
     private GridViewAdapter mAdapter;
+    private String mSort = "initial";
 
     private static final String[] MOVIE_COLUMNS = {
             MoviesContract.MoviesEntry.TABLE_NAME + "." + MoviesContract.MoviesEntry._ID,
@@ -105,7 +106,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.v("PROBLEM_OnCreateView","RUN");
+        Log.v("PROBLEM_OnCreateView", "RUN");
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
 //        String sortValue = Utility.getPreferredSort(getActivity());
@@ -141,10 +142,10 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     }
 
 
-    void onSortChanged(){
-        Log.v("PROBLEM_OnSortChanged","RUN");
+    void onSortChanged() {
+        Log.v("PROBLEM_OnSortChanged", "RUN");
         updateMoviesList();
-        getLoaderManager().restartLoader(MOVIES_LOADER,null,this);
+        getLoaderManager().restartLoader(MOVIES_LOADER, null, this);
     }
 
     private void updateMoviesList() {
@@ -155,6 +156,20 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         fetchMoviesTask.execute(mSortOrder);
         Log.v("PROBLEM_FetchTaskEnd", "RUN");
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String sort = Utility.getPreferredSort(getContext());
+        if (sort != null && !sort.equals(mSort)) {
+
+            Log.v("PROBLEM_OnResumeMain", "RUN");
+            onSortChanged();
+        }
+        mSort = sort;
+        Log.v("PROBLEM_OnResumeMain", "END");
+    }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

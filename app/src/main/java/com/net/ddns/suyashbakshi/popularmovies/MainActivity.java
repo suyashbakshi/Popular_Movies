@@ -70,19 +70,19 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        String sort = Utility.getPreferredSort(getApplicationContext());
-        if(sort != null && !sort.equals(mSort)){
-            MoviesFragment mf = (MoviesFragment)getSupportFragmentManager().findFragmentByTag(MOVIESFRAGMENT_TAG);
-
-            if(null!= mf){
-                Log.v("PROBLEM_OnResumeMain","RUN");
-                mf.onSortChanged();
-            }
-            mSort = sort;
-        }
-        Log.v("PROBLEM_OnResumeMain","END");
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        String sort = Utility.getPreferredSort(getApplicationContext());
+//        if(sort != null && !sort.equals(mSort)){
+//            MoviesFragment mf = (MoviesFragment)getSupportFragmentManager().findFragmentByTag(MOVIESFRAGMENT_TAG);
+//
+//            if(null!= mf){
+//                Log.v("PROBLEM_OnResumeMain","RUN");
+//                mf.onSortChanged();
+//            }
+//            mSort = sort;
+//        }
+//        Log.v("PROBLEM_OnResumeMain","END");
+//    }
 }
