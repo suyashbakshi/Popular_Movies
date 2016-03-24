@@ -39,6 +39,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     private static final int DETAIL_LOADER = 1;
 
+    private Uri mUri;
+    static final String DETAIL_URI = "URI";
+
     private static final String[] DETAIL_COLUMNS = {
             MoviesContract.MoviesEntry.TABLE_NAME + "." + MoviesContract.MoviesEntry._ID,
             MoviesContract.MoviesEntry.COLUMN_ORIGINAL_TITLE,
@@ -73,6 +76,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            mUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
+        }
 //        Intent intent = getActivity().getIntent();
 //        if (intent!=null){
 //
@@ -126,19 +134,29 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        Intent intent = getActivity().getIntent();
+//        Intent intent = getActivity().getIntent();
 
-        if (intent == null)
-            return null;
+//        if (intent == null || intent.getData() == null)
+//            return null;
 
-        return new CursorLoader(
-                getContext(),
-                intent.getData(),
-                DETAIL_COLUMNS,
-                null,
-                null,
-                null
-        );
+
+//            return new CursorLoader(
+//                    getContext(),
+//                    intent.getData(),
+//                    DETAIL_COLUMNS,
+//                    null,
+//                    null,
+//                    null
+//            );
+        if (null != mUri) {
+            return new CursorLoader(
+                    getActivity(),
+                    mUri,
+                    DETAIL_COLUMNS,
+                    null, null, null
+            );
+        }
+        return null;
     }
 
     @Override
@@ -166,5 +184,16 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoaderReset(Loader loader) {
 
+    }
+
+    void onSortChanged(String newSort) {
+        // replace the uri, since the sorting has changed
+        Uri uri = mUri;
+        if (null != uri) {
+            long id = MoviesContract.MoviesEntry.getIdFromUri(uri);
+            Uri updatedUri = MoviesContract.MoviesEntry.buildMovieSortWithId(newSort, id);
+            mUri = updatedUri;
+            getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
+        }
     }
 }

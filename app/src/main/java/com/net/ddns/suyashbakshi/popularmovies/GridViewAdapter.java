@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
@@ -100,13 +101,16 @@ public class GridViewAdapter extends CursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
 
         View view = LayoutInflater.from(context).inflate(R.layout.grid_item_movie, parent, false);
+
+        ViewHolder viewHolder = new ViewHolder(view);
+        view.setTag(viewHolder);
         return view;
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-        final ImageView imageView = (ImageView) view.findViewById(R.id.grid_item_textView);
+        ViewHolder viewHolder = (ViewHolder) view.getTag();
 
         String imageURL = null;
 
@@ -119,10 +123,19 @@ public class GridViewAdapter extends CursorAdapter {
         String posterURI = BASE_POSTER_URI + imageURL;
 
 
-        Log.v("ADAPTER_VALUE_STRING", splitter[0] + " : " + splitter[1] + " : " + splitter[2] + " : "+ splitter[3]+ " : " + splitter[4]+ " : " + splitter[5]+ " : " + splitter[6]);
+        Log.v("ADAPTER_VALUE_STRING", splitter[0] + " : " + splitter[1] + " : " + splitter[2] + " : " + splitter[3] + " : " + splitter[4] + " : " + splitter[5] + " : " + splitter[6]);
 
-        Picasso.with(context).load(posterURI).into(imageView);
+        Picasso.with(context).load(posterURI).into(viewHolder.imageView);
 
+    }
+
+    public static class ViewHolder {
+
+        public final ImageView imageView;
+
+        public ViewHolder(View view) {
+            imageView = (ImageView) view.findViewById(R.id.grid_item_textView);
+        }
     }
 }
 

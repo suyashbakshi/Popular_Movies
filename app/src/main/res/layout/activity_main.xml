@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_movies"
+    android:name="com.net.ddns.suyashbakshi.popularmovies.MoviesFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
     android:fitsSystemWindows="true"
-    tools:context="com.net.ddns.suyashbakshi.popularmovies.MainActivity">
+    tools:context="com.net.ddns.suyashbakshi.popularmovies.MoviesFragment"
+    tools:layout="@android:layout/list_content">
 
 
-    <include layout="@layout/content_main" />
 
-</LinearLayout>
+</fragment>

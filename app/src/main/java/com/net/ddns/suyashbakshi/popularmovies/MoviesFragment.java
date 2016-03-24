@@ -128,13 +128,18 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                String sortValue = Utility.getPreferredSort(getActivity());
 
                 if (cursor != null) {
+//
+//                    Intent detailIntent = new Intent(getActivity(), DetailActivity.class)
+//                            .setData(MoviesContract.MoviesEntry.buildMovieSortWithId(Utility.getPreferredSort(getActivity()),
+//                                    cursor.getLong(COL_MOVIE_ID)));
+//                    startActivity(detailIntent);
 
-                    Intent detailIntent = new Intent(getActivity(), DetailActivity.class)
-                            .setData(MoviesContract.MoviesEntry.buildMovieSortWithId(Utility.getPreferredSort(getActivity()),
-                                    cursor.getLong(COL_MOVIE_ID)));
-                    startActivity(detailIntent);
+                    ((Callback)getActivity())
+                            .onItemSelected(MoviesContract.MoviesEntry.buildMovieSortWithId(
+                                    sortValue,cursor.getLong(COL_MOVIE_ID)));
                 }
             }
         });
@@ -200,5 +205,12 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
+    }
+
+    public interface Callback {
+        /**
+         * DetailFragmentCallback for when an item has been selected.
+         */
+        public void onItemSelected(Uri idUri);
     }
 }
