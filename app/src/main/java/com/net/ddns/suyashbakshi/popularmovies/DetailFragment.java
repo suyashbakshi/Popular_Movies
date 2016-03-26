@@ -1,10 +1,12 @@
 package com.net.ddns.suyashbakshi.popularmovies;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.Image;
 import android.net.Uri;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -38,6 +40,7 @@ import java.util.Date;
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int DETAIL_LOADER = 1;
+    private static final int FAVORITE_LOADER = 2;
 
     private Uri mUri;
     static final String DETAIL_URI = "URI";
@@ -51,6 +54,17 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             MoviesContract.MoviesEntry.COLUMN_OVERVIEW,
             MoviesContract.MoviesEntry.COLUMN_BACKDROP_PATH,
             MoviesContract.MoviesEntry.COLUMN_MOVIE_ID
+    };
+
+    private static final String[] FAV_COLUMNS = {
+            MoviesContract.FavoriteEntry.TABLE_NAME + "." + MoviesContract.FavoriteEntry._ID,
+            MoviesContract.FavoriteEntry.COLUMN_ORIGINAL_TITLE,
+            MoviesContract.FavoriteEntry.COLUMN_RELEASE_DATE,
+            MoviesContract.FavoriteEntry.COLUMN_VOTE_AVERAGE,
+            MoviesContract.FavoriteEntry.COLUMN_POSTER_PATH,
+            MoviesContract.FavoriteEntry.COLUMN_OVERVIEW,
+            MoviesContract.FavoriteEntry.COLUMN_BACKDROP_PATH,
+            MoviesContract.FavoriteEntry.COLUMN_MOVIE_ID
     };
 
     static final int COL_MOVIE_TABLE_ID = 0;
@@ -67,8 +81,16 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView releasedate;
     private TextView rating;
     private CollapsingToolbarLayout collapsingToolbar;
+    private FloatingActionButton fab;
     private String BASE_BACKDROP_URI = "http://image.tmdb.org/t/p/w780/";
 
+    String title;
+    String releaseDate;
+    String backDrop_path;
+    String vote_average;
+    String overview;
+    String movie_id;
+    String poster_path;
     public DetailFragment() {
     }
 
@@ -92,6 +114,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         releasedate = (TextView) rootView.findViewById(R.id.detail_date_textview);
         rating = (TextView) rootView.findViewById(R.id.detail_rating_textview);
         collapsingToolbar = (CollapsingToolbarLayout) rootView.findViewById(R.id.toolbar_layout);
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fav_fab);
 //
 //            collapsingToolbar.setTitle(split[0].toUpperCase());
 ////            String imageURL = split[3];
@@ -128,6 +151,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(DETAIL_LOADER, null, this);
+        getLoaderManager().initLoader(FAVORITE_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -148,13 +172,31 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 //                    null,
 //                    null
 //            );
-        if (null != mUri) {
-            return new CursorLoader(
-                    getActivity(),
-                    mUri,
-                    DETAIL_COLUMNS,
-                    null, null, null
-            );
+        switch (id) {
+            case DETAIL_LOADER:
+                if (null != mUri) {
+                    Log.v("DETAIL_LOADER", "FRAGMENT");
+                    return new CursorLoader(
+                            getActivity(),
+                            mUri,
+                            DETAIL_COLUMNS,
+                            null, null, null
+                    );
+                }
+                break;
+            case FAVORITE_LOADER:
+                if (null != mUri) {
+                    Log.v("FAVORITE_LOADER", "FRAGMENT");
+                    return new CursorLoader(
+                            getActivity(),
+                            mUri,
+                            FAV_COLUMNS,
+                            null,
+                            null,
+                            null
+                    );
+                }
+                break;
         }
         return null;
     }
@@ -164,21 +206,73 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         if (data != null && data.moveToFirst()) {
 
-            String title = data.getString(COL_ORIGINAL_TITLE);
-            String releaseDate = getFriendlyDateformat(data.getString(COL_RELEASE_DATE));
-            String backDrop_path = data.getString(COL_BACKDROP_PATH);
-            String vote_average = String.valueOf(data.getInt(COL_VOTE_AVERAGE));
-            String overview = data.getString(COL_OVERVIEW);
+            switch (loader.getId()) {
 
-            Log.v("DATE_VALUE", releaseDate);
+                case DETAIL_LOADER: {
 
-            collapsingToolbar.setTitle(title);
-            releasedate.setText(releaseDate);
-            Picasso.with(getContext()).load(BASE_BACKDROP_URI + backDrop_path).into(backdrop);
-            rating.setText(vote_average + " / 10");
-            description.setText(overview);
+                    title = data.getString(COL_ORIGINAL_TITLE);
+                    releaseDate = getFriendlyDateformat(data.getString(COL_RELEASE_DATE));
+                    backDrop_path = data.getString(COL_BACKDROP_PATH);
+                    vote_average = String.valueOf(data.getInt(COL_VOTE_AVERAGE));
+                    overview = data.getString(COL_OVERVIEW);
+                    movie_id = data.getString(COL_MOVIE_ID);
+                    poster_path = data.getString(COL_POSTER_PATH);
+
+//            Log.v("DATE_VALUE", releaseDate);
+
+                    collapsingToolbar.setTitle(title);
+                    releasedate.setText(releaseDate);
+                    Picasso.with(getContext()).load(BASE_BACKDROP_URI + backDrop_path).into(backdrop);
+                    rating.setText(vote_average + " / 10");
+                    description.setText(overview);
+                }
+
+                case FAVORITE_LOADER: {
+
+                    boolean favorited = false;
+                    if(data.moveToFirst()){
+
+                        do {
+                            if(data.getString(COL_MOVIE_ID).equalsIgnoreCase(movie_id)){
+                                favorited = true;
+                            }
+                        }while (data.moveToNext());
+                    }
+
+                    final boolean mFavorited = favorited;
+
+                    fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            ContentValues contentValues = new ContentValues();
+                            contentValues.put(MoviesContract.FavoriteEntry.COLUMN_MOVIE_ID, movie_id);
+                            contentValues.put(MoviesContract.FavoriteEntry.COLUMN_OVERVIEW, overview);
+                            contentValues.put(MoviesContract.FavoriteEntry.COLUMN_RELEASE_DATE, releaseDate);
+                            contentValues.put(MoviesContract.FavoriteEntry.COLUMN_ORIGINAL_TITLE, title);
+                            contentValues.put(MoviesContract.FavoriteEntry.COLUMN_VOTE_AVERAGE, vote_average);
+                            contentValues.put(MoviesContract.FavoriteEntry.COLUMN_POSTER_PATH, poster_path);
+                            contentValues.put(MoviesContract.FavoriteEntry.COLUMN_BACKDROP_PATH, backDrop_path);
+
+                            if(mFavorited){
+                                getActivity().getContentResolver().delete(
+                                        MoviesContract.FavoriteEntry.buildFavWithId(Long.parseLong(movie_id)),null,null);
+                                Toast.makeText(getContext(),"REMOVED FROM FAV",Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                getActivity().getContentResolver().insert(
+                                        MoviesContract.FavoriteEntry.CONTENT_URI.buildUpon().build(),
+                                        contentValues);
+                                Toast.makeText(getContext(),"ADDED TO FAV",Toast.LENGTH_SHORT);
+                            }
+
+                        }
+                    });
+                }
+
+            }
+
         }
-
     }
 
     @Override
@@ -189,10 +283,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     void onSortChanged(String newSort) {
         // replace the uri, since the sorting has changed
         Uri uri = mUri;
+        Log.v("mUri", String.valueOf(mUri));
         if (null != uri) {
             long id = MoviesContract.MoviesEntry.getIdFromUri(uri);
+            Log.v("ID", String.valueOf(id));
             Uri updatedUri = MoviesContract.MoviesEntry.buildMovieSortWithId(newSort, id);
             mUri = updatedUri;
+            Log.v("UPDATED_URI", String.valueOf(updatedUri));
             getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
         }
     }

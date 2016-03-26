@@ -5,6 +5,8 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import java.util.Locale;
+
 /**
  * Created by Suyash on 2/18/2016.
  */
@@ -68,9 +70,9 @@ public class MoviesContract {
 //        data such as poster, overview, release date, trailers and review links of the corresponding movie. So we generate
 //        the URI for movie with sort criteria and its movie_id.
 
-        public static Uri buildMovieSortWithId(String sortValue, long Id){
+        public static Uri buildMovieSortWithId(String sortValue, long MovieId){
             return CONTENT_URI.buildUpon().appendPath(sortValue)
-                    .appendPath(Long.toString(Id)).build();
+                    .appendPath(Long.toString(MovieId)).build();
         }
 
         public static String getSortFromUri(Uri uri){
@@ -132,6 +134,14 @@ public class MoviesContract {
 
         }
 
+        public static Uri buildFavWithId(long id){
 
+            return CONTENT_URI.buildUpon().appendPath(Long.toString(id)).build();
+
+        }
+
+        public static long getMovieIdFromUri(Uri uri){
+            return Long.parseLong(uri.getPathSegments().get(1));
+        }
     }
 }
