@@ -1,12 +1,8 @@
 package com.net.ddns.suyashbakshi.popularmovies;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -20,10 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 
 import com.net.ddns.suyashbakshi.popularmovies.DataBase.MoviesContract;
-
-import java.util.ArrayList;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -33,6 +28,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     private static final int MOVIES_LOADER = 0;
     private GridViewAdapter mAdapter;
     private String mSort = "initial";
+    private LinearLayout linearLayout;
 
     private static final String[] MOVIE_COLUMNS = {
             MoviesContract.MoviesEntry.TABLE_NAME + "." + MoviesContract.MoviesEntry._ID,
@@ -42,18 +38,8 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
             MoviesContract.MoviesEntry.COLUMN_POSTER_PATH,
             MoviesContract.MoviesEntry.COLUMN_OVERVIEW,
             MoviesContract.MoviesEntry.COLUMN_BACKDROP_PATH,
-            MoviesContract.MoviesEntry.COLUMN_MOVIE_ID
-    };
-
-    private static final String[] FAV_COLUMNS = {
-            MoviesContract.FavoriteEntry.TABLE_NAME + "." + MoviesContract.FavoriteEntry._ID,
-            MoviesContract.FavoriteEntry.COLUMN_ORIGINAL_TITLE,
-            MoviesContract.FavoriteEntry.COLUMN_RELEASE_DATE,
-            MoviesContract.FavoriteEntry.COLUMN_VOTE_AVERAGE,
-            MoviesContract.FavoriteEntry.COLUMN_POSTER_PATH,
-            MoviesContract.FavoriteEntry.COLUMN_OVERVIEW,
-            MoviesContract.FavoriteEntry.COLUMN_BACKDROP_PATH,
-            MoviesContract.FavoriteEntry.COLUMN_MOVIE_ID
+            MoviesContract.MoviesEntry.COLUMN_MOVIE_ID,
+            MoviesContract.MoviesEntry.COLUMN_FAVORITED
     };
 
     static final int COL_MOVIE_TABLE_ID = 0;
@@ -64,6 +50,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     static final int COL_OVERVIEW = 5;
     static final int COL_BACKDROP_PATH = 6;
     static final int COL_MOVIE_ID = 7;
+    static final int COL_FAVORITED = 8;
 
 
     public MoviesFragment() {
@@ -120,6 +107,8 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         Log.v("PROBLEM_OnCreateView", "RUN");
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
+        linearLayout = (LinearLayout)rootView.findViewById(R.id.no_fav_view);
+
 //        String sortValue = Utility.getPreferredSort(getActivity());
 
 
@@ -144,22 +133,13 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
                 if (cursor != null) {
 //
 //                    Intent detailIntent = new Intent(getActivity(), DetailActivity.class)
-//                            .setData(MoviesContract.MoviesEntry.buildMovieSortWithId(Utility.getPreferredSort(getActivity()),
+//                            .setData(MoviesContract.MoviesEntry.buildMovieSortWithMovieId(Utility.getPreferredSort(getActivity()),
 //                                    cursor.getLong(COL_MOVIE_ID)));
 //                    startActivity(detailIntent);
-                    String currentSortValue = Utility.getPreferredSort(getContext());
-                    if (currentSortValue.equalsIgnoreCase(getString(R.string.pref_sort_fav))) {
-                        ((Callback) getActivity())
-                                .onItemSelected(MoviesContract.FavoriteEntry.buildFavWithId(cursor.getLong(COL_MOVIE_ID)));
-                        Log.v("CALLBACK_FAVORITE", String.valueOf(MoviesContract.FavoriteEntry.buildFavWithId(cursor.getLong(COL_MOVIE_ID))));
-                    }
 
-                    ((Callback) getActivity())
-                            .onItemSelected(MoviesContract.MoviesEntry.buildMovieSortWithId(
-                                    currentSortValue, cursor.getLong(COL_MOVIE_ID)));
-                    Log.v("CALLBACK_MAIN", String.valueOf(MoviesContract.MoviesEntry.buildMovieSortWithId(currentSortValue,cursor.getLong(COL_MOVIE_ID))));
-
-
+                    ((Callback)getActivity())
+                            .onItemSelected(MoviesContract.MoviesEntry.buildMovieSortWithMovieId(
+                                    sortValue, cursor.getLong(COL_MOVIE_ID)));
                 }
             }
         });
@@ -178,7 +158,8 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         String mSortOrder = Utility.getPreferredSort(getActivity());
         FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(getContext(), mAdapter);
 
-        if (mSortOrder.equals(getString(R.string.pref_sort_fav))) {
+        if(mSortOrder.equals(getString(R.string.pref_sort_fav))){
+            fetchMoviesTask.addSortValue(mSortOrder);
             return;
         }
 
@@ -203,21 +184,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-
-//        TODO: A check will be given here when the favorite table is added. If sortValue is Favorite, we will generate the URI for favorite table
-//        TODO: and the cursor from favorite table will be used to initialize the adapter.
-
         String sortValue = Utility.getPreferredSort(getContext());
-
-        if (sortValue.equalsIgnoreCase(getString(R.string.pref_sort_fav))) {
-
-            Uri favUri = MoviesContract.FavoriteEntry.CONTENT_URI;
-
-            return new CursorLoader(getActivity(),
-                    favUri,
-                    FAV_COLUMNS,
-                    null, null, null);
-        }
 
         Uri movieForSortUri = MoviesContract.MoviesEntry.buildMovieSort(sortValue);
 
@@ -231,6 +198,16 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+        if(!data.moveToFirst()){
+//      show no fav image
+//     Log.v("NO_FAV_MOVIES","EMPTY CURSOR");
+            linearLayout.setVisibility(View.VISIBLE);
+        }
+        else{
+//        remove no fav image
+            linearLayout.setVisibility(View.GONE);
+        }
 
         mAdapter.swapCursor(data);
 

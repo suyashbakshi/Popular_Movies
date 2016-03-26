@@ -96,26 +96,26 @@ public class MainActivity extends ActionBarActivity implements MoviesFragment.Ca
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        String sort = Utility.getPreferredSort(getApplicationContext());
-        if(sort != null && !sort.equals(mSort)){
-            MoviesFragment mf = (MoviesFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_movies);
-
-            if(null!= mf){
-                Log.v("PROBLEM_OnResumeMain","RUN");
-                mf.onSortChanged();
-            }
-            DetailFragment df = (DetailFragment)getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
-
-            if(null!=df){
-                df.onSortChanged(mSort);
-            }
-            mSort = sort;
-        }
-        Log.v("PROBLEM_OnResumeMain","END");
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        String sort = Utility.getPreferredSort(getApplicationContext());
+//        if(sort != null && !sort.equals(mSort)){
+//            MoviesFragment mf = (MoviesFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_movies);
+//
+//            if(null!= mf){
+//                Log.v("PROBLEM_OnResumeMain","RUN");
+//                mf.onSortChanged();
+//            }
+//            DetailFragment df = (DetailFragment)getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
+//
+//            if(null!=df){
+//                df.onSortChanged(mSort);
+//            }
+//            mSort = sort;
+//        }
+//        Log.v("PROBLEM_OnResumeMain","END");
+//    }
 
     @Override
     public void onItemSelected(Uri idUri) {

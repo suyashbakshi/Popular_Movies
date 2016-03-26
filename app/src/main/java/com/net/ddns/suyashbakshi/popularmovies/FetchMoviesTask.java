@@ -170,6 +170,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, String[]> {
             movieValues.put(MoviesContract.MoviesEntry.COLUMN_POSTER_PATH, image_url);
             movieValues.put(MoviesContract.MoviesEntry.COLUMN_OVERVIEW, overview);
             movieValues.put(MoviesContract.MoviesEntry.COLUMN_BACKDROP_PATH, backdrop_path);
+            movieValues.put(MoviesContract.MoviesEntry.COLUMN_FAVORITED,0);
 
             cVVector.add(movieValues);
         }

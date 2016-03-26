@@ -30,6 +30,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 MoviesContract.MoviesEntry.COLUMN_VOTE_AVERAGE + " INTEGER NOT NULL," +
                 MoviesContract.MoviesEntry.COLUMN_POSTER_PATH + " TEXT NOT NULL," +
                 MoviesContract.MoviesEntry.COLUMN_BACKDROP_PATH + " TEXT NOT NULL," +
+                MoviesContract.MoviesEntry.COLUMN_FAVORITED + " INTEGER NOT NULL," +
 
                 " FOREIGN KEY (" + MoviesContract.MoviesEntry.COLUMN_SORT_KEY + ") REFERENCES "+
                 MoviesContract.SortEntry.TABLE_NAME + " (" + MoviesContract.SortEntry._ID + "), " +
@@ -42,21 +43,10 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 MoviesContract.SortEntry._ID + " INTEGER PRIMARY KEY," +
                 MoviesContract.SortEntry.COLUMN_SORT_VALUE + " TEXT UNIQUE NOT NULL );";
 
-        final String SQL_CREATE_FAV_TABLE = "CREATE TABLE "+ MoviesContract.FavoriteEntry.TABLE_NAME + " (" +
-                MoviesContract.FavoriteEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                MoviesContract.FavoriteEntry.COLUMN_MOVIE_ID + " INTEGER NOT NULL," +
-                MoviesContract.FavoriteEntry.COLUMN_OVERVIEW + " TEXT NOT NULL," +
-                MoviesContract.FavoriteEntry.COLUMN_RELEASE_DATE + " INTEGER NOT NULL," +
-                MoviesContract.FavoriteEntry.COLUMN_ORIGINAL_TITLE + " TEXT NOT NULL," +
-                MoviesContract.FavoriteEntry.COLUMN_VOTE_AVERAGE + " INTEGER NOT NULL," +
-                MoviesContract.FavoriteEntry.COLUMN_POSTER_PATH + " TEXT NOT NULL," +
-                MoviesContract.FavoriteEntry.COLUMN_BACKDROP_PATH + " TEXT NOT NULL );";
-
 
 
         db.execSQL(SQL_CREATE_MOVIES_TABLE);
         db.execSQL(SQL_CREATE_SORT_TABLE);
-        db.execSQL(SQL_CREATE_FAV_TABLE);
     }
 
     @Override

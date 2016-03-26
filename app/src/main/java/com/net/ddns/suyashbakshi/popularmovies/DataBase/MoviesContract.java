@@ -5,8 +5,6 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import java.util.Locale;
-
 /**
  * Created by Suyash on 2/18/2016.
  */
@@ -43,6 +41,8 @@ public class MoviesContract {
 
         public static final String COLUMN_BACKDROP_PATH = "backdrop_path";
 
+        public static final String COLUMN_FAVORITED = "favorited";
+
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIES).build();
 
         public static final String CONTENT_TYPE =   ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIES;
@@ -70,9 +70,9 @@ public class MoviesContract {
 //        data such as poster, overview, release date, trailers and review links of the corresponding movie. So we generate
 //        the URI for movie with sort criteria and its movie_id.
 
-        public static Uri buildMovieSortWithId(String sortValue, long MovieId){
+        public static Uri buildMovieSortWithMovieId(String sortValue, long Id){
             return CONTENT_URI.buildUpon().appendPath(sortValue)
-                    .appendPath(Long.toString(MovieId)).build();
+                    .appendPath(Long.toString(Id)).build();
         }
 
         public static String getSortFromUri(Uri uri){
@@ -134,14 +134,6 @@ public class MoviesContract {
 
         }
 
-        public static Uri buildFavWithId(long id){
 
-            return CONTENT_URI.buildUpon().appendPath(Long.toString(id)).build();
-
-        }
-
-        public static long getMovieIdFromUri(Uri uri){
-            return Long.parseLong(uri.getPathSegments().get(1));
-        }
     }
 }
