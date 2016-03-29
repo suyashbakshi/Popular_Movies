@@ -42,25 +42,9 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d380b2fa-d0a1-4b3f-8b32-53fe25df0369" name="Default" comment="Trailers Working - Partially (Need to improve in next commit)">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/Network_Services/FetchReviewTask.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/Adapters/ReviewViewAdapter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/gson_2_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_review.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_trailer_review.xml" />
-      <change type="DELETED" beforePath="C:\Users\Suyash\AndroidStudioProjects\PopularMovies\app\src\main\res\layout\content_detail.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Suyash\AndroidStudioProjects\PopularMovies\app\src\main\res\layout\content_main.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Suyash\AndroidStudioProjects\PopularMovies\app\src\main\res\layout\content_scrolling.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+    <list default="true" id="d380b2fa-d0a1-4b3f-8b32-53fe25df0369" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/DetailFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/DetailFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/Network_Services/FetchTrailerTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/Network_Services/FetchTrailerTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/Adapters/TrailerViewAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/Adapters/TrailerViewAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_detail.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_detail.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_trailer.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_trailer.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/xml/pref_general.xml" afterPath="$PROJECT_DIR$/app/src/main/res/xml/pref_general.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/MoviesFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/MoviesFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PopularMovies.iws" />
@@ -99,6 +83,42 @@
           </provider>
           <provider editor-type-id="android-designer">
             <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MoviesFragment.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/MoviesFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.54382825">
+              <caret line="170" column="30" selection-start-line="170" selection-start-column="30" selection-end-line="170" selection-end-column="30" />
+              <folding>
+                <element signature="e#6077#6102#0" expanded="true" />
+                <element signature="e#6164#6591#0" expanded="true" />
+                <element signature="e#6590#6591#0" expanded="true" />
+                <element signature="e#8930#8931#0" expanded="true" />
+                <element signature="e#8971#8972#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-13.407408">
+              <caret line="113" column="43" selection-start-line="113" selection-start-column="43" selection-end-line="113" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="98" column="21" selection-start-line="98" selection-start-column="21" selection-end-line="98" selection-end-column="21" />
+              <folding />
+            </state>
           </provider>
         </entry>
       </file>
@@ -146,10 +166,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FetchReviewTask.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DetailFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/DetailFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="283" column="21" selection-start-line="283" selection-start-column="21" selection-end-line="283" selection-end-column="21" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#9013#12287#0" expanded="true" />
+                <element signature="e#12286#12287#0" expanded="true" />
+                <element signature="e#12334#12914#0" expanded="true" />
+                <element signature="e#12913#12914#0" expanded="true" />
+                <element signature="e#13457#13967#0" expanded="true" />
+                <element signature="e#13966#13967#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FetchReviewTask.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/Network_Services/FetchReviewTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.30769232">
+            <state vertical-scroll-proportion="0.0">
               <caret line="119" column="24" selection-start-line="119" selection-start-column="24" selection-end-line="119" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -1784,7 +1822,6 @@
         <option value="$PROJECT_DIR$/app/build/generated/source/buildConfig/debug/com/net/ddns/suyashbakshi/popularmovies/BuildConfig.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/MoviesFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/DataBase/MovieDbHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/DataBase/MovieProvider.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/ActivityAndFragments/DetailFragment.java" />
@@ -1799,7 +1836,6 @@
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/Utility/Utility.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/test.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/DetailFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/Network_Services/FetchTrailerTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/Adapters/TrailerViewAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_trailer.xml" />
@@ -1807,6 +1843,8 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_detail.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_review.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/Network_Services/FetchReviewTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/DetailFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/MoviesFragment.java" />
       </list>
     </option>
   </component>
@@ -2394,7 +2432,13 @@
       <option name="project" value="LOCAL" />
       <updated>1459241934333</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Trailers &amp; Reviews Fully Functional - (Few Network Touchups Left)">
+      <created>1459263663666</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1459263663667</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2418,7 +2462,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.96763206" sideWeight="0.515885" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0" sideWeight="0.48411497" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0" sideWeight="0.48411497" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.44804087" sideWeight="0.48487142" order="2" side_tool="false" content_ui="tabs" />
@@ -2427,7 +2471,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5060514" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17019667" sideWeight="0.47969544" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17019667" sideWeight="0.47969544" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -2491,7 +2535,8 @@
     <MESSAGE value="FAVORITES- WORKING" />
     <MESSAGE value="FAVORITES- WORKING (IGNORE PREVIOUS COMMIT)" />
     <MESSAGE value="Trailers Working - Partially (Need to improve in next commit)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Trailers Working - Partially (Need to improve in next commit)" />
+    <MESSAGE value="Trailers &amp; Reviews Fully Functional - (Few Network Touchups Left)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Trailers &amp; Reviews Fully Functional - (Few Network Touchups Left)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2672,14 +2717,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="98" column="21" selection-start-line="98" selection-start-column="21" selection-end-line="98" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/DataBase/MovieDbHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.20930232">
@@ -2729,17 +2766,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/MoviesFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
-          <folding>
-            <element signature="e#4755#5720#0" expanded="true" />
-            <element signature="e#5719#5720#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/Adapters/ReviewViewAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2785,14 +2811,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.424812">
-          <caret line="113" column="43" selection-start-line="113" selection-start-column="43" selection-end-line="113" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2815,22 +2833,6 @@
           <caret line="151" column="9" selection-start-line="151" selection-start-column="9" selection-end-line="151" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/DetailFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="277" column="109" selection-start-line="277" selection-start-column="109" selection-end-line="277" selection-end-column="109" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#9012#12286#0" expanded="true" />
-            <element signature="e#12285#12286#0" expanded="true" />
-            <element signature="e#12746#13192#0" expanded="true" />
-            <element signature="e#13191#13192#0" expanded="true" />
-            <element signature="e#13238#13532#0" expanded="true" />
-            <element signature="e#13531#13532#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2905,10 +2907,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/Network_Services/FetchReviewTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.30769232">
+        <state vertical-scroll-proportion="0.0">
           <caret line="119" column="24" selection-start-line="119" selection-start-column="24" selection-end-line="119" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="98" column="21" selection-start-line="98" selection-start-column="21" selection-end-line="98" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/DetailFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="283" column="21" selection-start-line="283" selection-start-column="21" selection-end-line="283" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#9013#12287#0" expanded="true" />
+            <element signature="e#12286#12287#0" expanded="true" />
+            <element signature="e#12334#12914#0" expanded="true" />
+            <element signature="e#12913#12914#0" expanded="true" />
+            <element signature="e#13457#13967#0" expanded="true" />
+            <element signature="e#13966#13967#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.407408">
+          <caret line="113" column="43" selection-start-line="113" selection-start-column="43" selection-end-line="113" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/net/ddns/suyashbakshi/popularmovies/MoviesFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.54382825">
+          <caret line="170" column="30" selection-start-line="170" selection-start-column="30" selection-end-line="170" selection-end-column="30" />
+          <folding>
+            <element signature="e#6077#6102#0" expanded="true" />
+            <element signature="e#6164#6591#0" expanded="true" />
+            <element signature="e#6590#6591#0" expanded="true" />
+            <element signature="e#8930#8931#0" expanded="true" />
+            <element signature="e#8971#8972#0" expanded="true" />
           </folding>
         </state>
       </provider>

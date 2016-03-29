@@ -3,6 +3,7 @@ package com.net.ddns.suyashbakshi.popularmovies;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.net.ddns.suyashbakshi.popularmovies.Adapters.GridViewAdapter;
 import com.net.ddns.suyashbakshi.popularmovies.DataBase.MoviesContract;
@@ -153,7 +155,24 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
     void onSortChanged() {
         Log.v("PROBLEM_OnSortChanged", "RUN");
-        updateMoviesList();
+
+
+        if (!Utility.isOnline(getContext())) {
+//            Toast.makeText(getContext(), "No Internet", Toast.LENGTH_SHORT).show();
+            Snackbar.make(getView(),R.string.no_internet_view,Snackbar.LENGTH_INDEFINITE)
+                    .setCallback(new Snackbar.Callback() {
+                        @Override
+                        public void onDismissed(Snackbar snackbar, int event) {
+                            super.onDismissed(snackbar, event);
+                            if (event == DISMISS_EVENT_MANUAL || event == DISMISS_EVENT_SWIPE) {
+                                snackbar.show();
+                            }
+                        }
+                    }).show();
+        }
+        else {
+            updateMoviesList();
+        }
         getLoaderManager().restartLoader(MOVIES_LOADER, null, this);
     }
 
@@ -214,7 +233,13 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
             } else {
                 linearLayout.setVisibility(View.GONE);
-                loading_view.setVisibility(View.VISIBLE);
+
+                if (Utility.isOnline(getContext())) {
+                    loading_view.setVisibility(View.VISIBLE);
+                }
+                else {
+                    loading_view.setVisibility(View.GONE);
+                }
             }
         } else {
             loading_view.setVisibility(View.GONE);

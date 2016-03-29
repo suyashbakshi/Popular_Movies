@@ -117,7 +117,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         fav_fab = (FloatingActionButton) rootView.findViewById(R.id.fav_action_button);
         trailerPlay = (FloatingActionButton) rootView.findViewById(R.id.trailer_play);
         trailerView = (ListView) rootView.findViewById(R.id.trailer_list_view);
-        reviewShow = (FloatingActionButton)rootView.findViewById(R.id.review_show);
+        reviewShow = (FloatingActionButton) rootView.findViewById(R.id.review_show);
         reviewView = (ListView) rootView.findViewById(R.id.review_list_view);
 
         trailerViewAdapter = new TrailerViewAdapter(getContext(), new ArrayList<String>());
@@ -274,10 +274,14 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             trailerPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    trailerView.setVisibility(View.VISIBLE);
-                    FetchTrailerTask fetchTrailerTask = new FetchTrailerTask(trailerViewAdapter, getContext());
-                    fetchTrailerTask.execute(movie_id);
 
+                    if (!Utility.isOnline(getContext())) {
+                        Toast.makeText(getContext(), "No Internet", Toast.LENGTH_SHORT).show();
+                    } else {
+                        trailerView.setVisibility(View.VISIBLE);
+                        FetchTrailerTask fetchTrailerTask = new FetchTrailerTask(trailerViewAdapter, getContext());
+                        fetchTrailerTask.execute(movie_id);
+                    }
                 }
             });
 
@@ -296,8 +300,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             reviewShow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FetchReviewTask fetchReviewTask = new FetchReviewTask(reviewViewAdapter,getContext());
-                    fetchReviewTask.execute(movie_id);
+
+                    if (!Utility.isOnline(getContext())) {
+                        Toast.makeText(getContext(), "No Internet", Toast.LENGTH_SHORT).show();
+                    } else {
+                        FetchReviewTask fetchReviewTask = new FetchReviewTask(reviewViewAdapter, getContext());
+                        fetchReviewTask.execute(movie_id);
+                    }
                 }
             });
         }
