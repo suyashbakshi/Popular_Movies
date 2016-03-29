@@ -12,19 +12,26 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.net.ddns.suyashbakshi.popularmovies.Adapters.TrailerViewAdapter;
 import com.net.ddns.suyashbakshi.popularmovies.DataBase.MoviesContract;
+import com.net.ddns.suyashbakshi.popularmovies.Network_Services.FetchTrailerTask;
+import com.net.ddns.suyashbakshi.popularmovies.Utility.Utility;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -67,7 +74,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView rating;
     private CollapsingToolbarLayout collapsingToolbar;
     private FloatingActionButton fav_fab;
+    private FloatingActionButton trailerPlay;
+    private ListView trailerView;
     private String BASE_BACKDROP_URI = "http://image.tmdb.org/t/p/w780/";
+
+    private TrailerViewAdapter trailerViewAdapter;
 
     public DetailFragment() {
     }
@@ -93,7 +104,15 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         rating = (TextView) rootView.findViewById(R.id.detail_rating_textview);
         collapsingToolbar = (CollapsingToolbarLayout) rootView.findViewById(R.id.toolbar_layout);
         fav_fab = (FloatingActionButton)rootView.findViewById(R.id.fav_action_button);
-//
+        trailerPlay = (FloatingActionButton)rootView.findViewById(R.id.trailer_play);
+        trailerView = (ListView)rootView.findViewById(R.id.trailer_list_view);
+
+        trailerViewAdapter = new TrailerViewAdapter(getContext(),new ArrayList<String>());
+
+        trailerView.setAdapter(trailerViewAdapter);
+
+
+
 //            collapsingToolbar.setTitle(split[0].toUpperCase());
 ////            String imageURL = split[3];
 //            String backdropURL = split[5];
@@ -237,6 +256,27 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                            Toast.makeText(getContext(), getString(R.string.add_fav), Toast.LENGTH_SHORT).show();
                        }
                    }
+            });
+
+            trailerPlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    FetchTrailerTask fetchTrailerTask = new FetchTrailerTask(trailerViewAdapter);
+                    fetchTrailerTask.execute(movie_id);
+                }
+            });
+
+            trailerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    String itemString[] = trailerViewAdapter.getItem(position).split("/");
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + itemString[0]));
+                    startActivity(intent);
+
+                }
             });
         }
 

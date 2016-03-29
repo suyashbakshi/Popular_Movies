@@ -3,17 +3,13 @@ package com.net.ddns.suyashbakshi.popularmovies;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.squareup.picasso.Picasso;
+import com.net.ddns.suyashbakshi.popularmovies.Preferences.SettingsActivity;
+import com.net.ddns.suyashbakshi.popularmovies.Utility.Utility;
 
 public class MainActivity extends ActionBarActivity implements MoviesFragment.Callback {
 
@@ -96,26 +92,26 @@ public class MainActivity extends ActionBarActivity implements MoviesFragment.Ca
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        String sort = Utility.getPreferredSort(getApplicationContext());
-//        if(sort != null && !sort.equals(mSort)){
-//            MoviesFragment mf = (MoviesFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_movies);
-//
-//            if(null!= mf){
-//                Log.v("PROBLEM_OnResumeMain","RUN");
-//                mf.onSortChanged();
-//            }
-//            DetailFragment df = (DetailFragment)getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
-//
-//            if(null!=df){
-//                df.onSortChanged(mSort);
-//            }
-//            mSort = sort;
-//        }
-//        Log.v("PROBLEM_OnResumeMain","END");
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String sort = Utility.getPreferredSort(getApplicationContext());
+        if(sort != null && !sort.equals(mSort)){
+            MoviesFragment mf = (MoviesFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_movies);
+
+            if(null!= mf){
+                Log.v("PROBLEM_OnResumeMain","RUN");
+                mf.onSortChanged();
+            }
+            DetailFragment df = (DetailFragment)getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
+
+            if(null!=df){
+                df.onSortChanged(mSort);
+            }
+            mSort = sort;
+        }
+        Log.v("PROBLEM_OnResumeMain","END");
+    }
 
     @Override
     public void onItemSelected(Uri idUri) {

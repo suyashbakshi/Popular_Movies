@@ -13,7 +13,7 @@
         android:layout_height="fill_parent"
         android:layout_gravity="center"
         card_view:cardBackgroundColor="@android:color/white"
-        card_view:cardElevation="2dp"
+        card_view:cardElevation="4dp"
         card_view:cardUseCompactPadding="true">
 
         <ImageView

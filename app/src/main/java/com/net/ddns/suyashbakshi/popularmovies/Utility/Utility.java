@@ -1,4 +1,4 @@
-package com.net.ddns.suyashbakshi.popularmovies;
+package com.net.ddns.suyashbakshi.popularmovies.Utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,6 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.net.ddns.suyashbakshi.popularmovies.R;
 
 /**
  * Created by Suyash on 3/22/2016.

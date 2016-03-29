@@ -109,6 +109,8 @@
     <string name="remove_fav">Removed From Favorites</string>
     <string name="add_fav">Added To Favorites</string>
     <string name="already_fav">Already In Favorites</string>
-    <string name="no_fav_movie_view">Uh Oh, You Dont Have Any Favorite Movies Yet</string>
+    <string name="no_fav_movie_view">Uh Oh, You dont have any favorite movies yet.</string>
+    <string name="loading_view">LOADING, PLEASE WAIT...</string>
+    <string name="show_review">SHOW REVIEWS</string>
 
 </resources>

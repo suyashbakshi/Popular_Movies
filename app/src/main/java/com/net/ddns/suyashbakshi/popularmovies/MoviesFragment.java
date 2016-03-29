@@ -17,8 +17,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.net.ddns.suyashbakshi.popularmovies.Adapters.GridViewAdapter;
 import com.net.ddns.suyashbakshi.popularmovies.DataBase.MoviesContract;
+import com.net.ddns.suyashbakshi.popularmovies.Network_Services.FetchMoviesTask;
+import com.net.ddns.suyashbakshi.popularmovies.Utility.Utility;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -29,6 +33,8 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     private GridViewAdapter mAdapter;
     private String mSort = "initial";
     private LinearLayout linearLayout;
+    private TextView loading_view;
+    private static boolean first = true;
 
     private static final String[] MOVIE_COLUMNS = {
             MoviesContract.MoviesEntry.TABLE_NAME + "." + MoviesContract.MoviesEntry._ID,
@@ -107,13 +113,11 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         Log.v("PROBLEM_OnCreateView", "RUN");
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        linearLayout = (LinearLayout)rootView.findViewById(R.id.no_fav_view);
+        linearLayout = (LinearLayout) rootView.findViewById(R.id.no_fav_view);
+        loading_view = (TextView) rootView.findViewById(R.id.loading_view);
 
 //        String sortValue = Utility.getPreferredSort(getActivity());
 
-
-//        TODO: A check will be given here when the favorite table is added. If sortValue is Favorite, we will generate the URI for favorite table
-//        TODO: and the cursor from favorite table will be used to initialize the adapter.
 //        Uri movieForSort = MoviesContract.MoviesEntry.buildMovieSort(sortValue);
 //        Cursor cur = getActivity().getContentResolver().query(movieForSort,null,null,null,null);
 
@@ -137,7 +141,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 //                                    cursor.getLong(COL_MOVIE_ID)));
 //                    startActivity(detailIntent);
 
-                    ((Callback)getActivity())
+                    ((Callback) getActivity())
                             .onItemSelected(MoviesContract.MoviesEntry.buildMovieSortWithMovieId(
                                     sortValue, cursor.getLong(COL_MOVIE_ID)));
                 }
@@ -158,7 +162,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         String mSortOrder = Utility.getPreferredSort(getActivity());
         FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(getContext(), mAdapter);
 
-        if(mSortOrder.equals(getString(R.string.pref_sort_fav))){
+        if (mSortOrder.equals(getString(R.string.pref_sort_fav))) {
             fetchMoviesTask.addSortValue(mSortOrder);
             return;
         }
@@ -166,19 +170,19 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         fetchMoviesTask.execute(mSortOrder);
         Log.v("PROBLEM_FetchTaskEnd", "RUN");
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        String sort = Utility.getPreferredSort(getContext());
-        if (sort != null && !sort.equals(mSort)) {
-
-            Log.v("PROBLEM_OnResumeMain", "RUN");
-            onSortChanged();
-        }
-        mSort = sort;
-        Log.v("PROBLEM_OnResumeMain", "END");
-    }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        String sort = Utility.getPreferredSort(getContext());
+//        if (sort != null && !sort.equals(mSort)) {
+//
+//            Log.v("PROBLEM_OnResumeMain", "RUN");
+//            onSortChanged();
+//        }
+//        mSort = sort;
+//        Log.v("PROBLEM_OnResumeMain", "END");
+//    }
 
 
     @Override
@@ -199,16 +203,23 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
-        if(!data.moveToFirst()){
-//      show no fav image
-//     Log.v("NO_FAV_MOVIES","EMPTY CURSOR");
-            linearLayout.setVisibility(View.VISIBLE);
-        }
-        else{
-//        remove no fav image
+        String sortValue = Utility.getPreferredSort(getContext());
+
+        if (!data.moveToFirst()) {
+
+            if (sortValue.equalsIgnoreCase(getString(R.string.pref_sort_fav))) {
+
+                loading_view.setVisibility(View.GONE);
+                linearLayout.setVisibility(View.VISIBLE);
+
+            } else {
+                linearLayout.setVisibility(View.GONE);
+                loading_view.setVisibility(View.VISIBLE);
+            }
+        } else {
+            loading_view.setVisibility(View.GONE);
             linearLayout.setVisibility(View.GONE);
         }
-
         mAdapter.swapCursor(data);
 
     }

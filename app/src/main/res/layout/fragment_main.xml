@@ -50,4 +50,16 @@
             android:maxLines="2"/>
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:id="@+id/loading_view"
+        android:text="@string/loading_view"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
 </LinearLayout>

@@ -6,8 +6,8 @@ import android.test.AndroidTestCase;
 
 
 import com.net.ddns.suyashbakshi.popularmovies.DataBase.MoviesContract;
-import com.net.ddns.suyashbakshi.popularmovies.FetchMoviesTask;
-import com.net.ddns.suyashbakshi.popularmovies.GridViewAdapter;
+import com.net.ddns.suyashbakshi.popularmovies.Network_Services.FetchMoviesTask;
+import com.net.ddns.suyashbakshi.popularmovies.Adapters.GridViewAdapter;
 
 import java.util.ArrayList;
 

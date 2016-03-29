@@ -1,4 +1,4 @@
-package com.net.ddns.suyashbakshi.popularmovies;
+package com.net.ddns.suyashbakshi.popularmovies.Preferences;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.net.ddns.suyashbakshi.popularmovies.R;
 
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
 

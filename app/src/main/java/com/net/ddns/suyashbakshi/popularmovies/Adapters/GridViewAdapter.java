@@ -1,28 +1,17 @@
-package com.net.ddns.suyashbakshi.popularmovies;
+package com.net.ddns.suyashbakshi.popularmovies.Adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.net.ddns.suyashbakshi.popularmovies.DataBase.MoviesContract;
+import com.net.ddns.suyashbakshi.popularmovies.R;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GridViewAdapter extends CursorAdapter {
     public GridViewAdapter(Context context, Cursor c, int flags) {

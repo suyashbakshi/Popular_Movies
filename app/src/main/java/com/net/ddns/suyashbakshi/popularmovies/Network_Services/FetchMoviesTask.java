@@ -1,18 +1,16 @@
-package com.net.ddns.suyashbakshi.popularmovies;
+package com.net.ddns.suyashbakshi.popularmovies.Network_Services;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
 
+import com.net.ddns.suyashbakshi.popularmovies.BuildConfig;
 import com.net.ddns.suyashbakshi.popularmovies.DataBase.MoviesContract;
+import com.net.ddns.suyashbakshi.popularmovies.Adapters.GridViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
