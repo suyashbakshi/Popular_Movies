@@ -5,9 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.net.ddns.suyashbakshi.popularmovies.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -28,13 +30,20 @@ public class TrailerViewAdapter extends ArrayAdapter<String> {
             convertView = layoutInflater.inflate(R.layout.list_item_trailer,parent,false);
         }
 
+
+        final String BASE_URL = "http://img.youtube.com/vi/";
+
+
         TextView trailerNameView = (TextView)convertView.findViewById(R.id.trailer_name_view);
+        ImageView trailerImageView = (ImageView)convertView.findViewById(R.id.trailer_image);
 
         String[] split = valueString.split("/");
 
+        final String url = BASE_URL + split[0] + "/0.jpg";
+
         String trailerName = split[1];
         trailerNameView.setText(trailerName);
-
+        Picasso.with(getContext()).load(url).into(trailerImageView);
 
 
         return convertView;

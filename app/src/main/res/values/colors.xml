@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="layoutBack">#dddddd</color>
     <color name="collapsingToolbarTitle">#ff009688</color>
+    <color name="headingColor">#7070ff</color>
 </resources>

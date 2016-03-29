@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.net.ddns.suyashbakshi.popularmovies.Adapters.ReviewViewAdapter;
 import com.net.ddns.suyashbakshi.popularmovies.Adapters.TrailerViewAdapter;
 
 import org.json.JSONArray;
@@ -21,16 +22,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Created by Suyash on 3/27/2016.
+ * Created by Suyash on 3/29/2016.
  */
-public class FetchTrailerTask extends AsyncTask<String, Void, String[]> {
+public class FetchReviewTask extends AsyncTask<String, Void, String[]> {
 
-    private TrailerViewAdapter mTrailerAdapter;
+    private ReviewViewAdapter mReviewAdapter;
     private Context mContext;
 
-    public FetchTrailerTask(TrailerViewAdapter trailerAdapter, Context context) {
+    public FetchReviewTask(ReviewViewAdapter reviewAdapter, Context context) {
 
-        mTrailerAdapter = trailerAdapter;
+        mReviewAdapter = reviewAdapter;
         mContext = context;
     }
 
@@ -39,8 +40,7 @@ public class FetchTrailerTask extends AsyncTask<String, Void, String[]> {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
-        String trailerJsonString = null;
-        ;
+        String reviewJsonString = null;
 
         try {
 
@@ -48,13 +48,13 @@ public class FetchTrailerTask extends AsyncTask<String, Void, String[]> {
             String API_KEY_PARAM = "api_key";
             String MOVIE_PATH = "movie";
             String MOVIE_ID_PATH = params[0];
-            String TRAILER_PATH = "trailers";
+            String REVIEW_PATH = "reviews";
 
             Uri trailerUri = Uri.parse(BASE_TRAILER_URI)
                     .buildUpon()
                     .appendPath(MOVIE_PATH)
                     .appendPath(MOVIE_ID_PATH)
-                    .appendPath(TRAILER_PATH)
+                    .appendPath(REVIEW_PATH)
                     .appendQueryParameter(API_KEY_PARAM, "28b3bcbe51accd00a86cceaf70a0c2f0")
                     .build();
 
@@ -79,7 +79,7 @@ public class FetchTrailerTask extends AsyncTask<String, Void, String[]> {
                 return null;
             }
 
-            trailerJsonString = buffer.toString();
+            reviewJsonString = buffer.toString();
 
         } catch (MalformedURLException e) {
 
@@ -100,7 +100,7 @@ public class FetchTrailerTask extends AsyncTask<String, Void, String[]> {
 
 
         try {
-            return getTrailerDataFromJson(trailerJsonString);
+            return getReviewDataFromJson(reviewJsonString);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -108,10 +108,17 @@ public class FetchTrailerTask extends AsyncTask<String, Void, String[]> {
     }
 
 
-    private String[] getTrailerDataFromJson(String trailerJsonString) throws JSONException {
+    private String[] getReviewDataFromJson(String trailerJsonString) throws JSONException {
 
         JSONObject trailerJson = new JSONObject(trailerJsonString);
-        JSONArray resultsArray = trailerJson.getJSONArray("youtube");
+        JSONArray resultsArray = trailerJson.getJSONArray("results");
+
+        String noOfResults = trailerJson.getString("total_results");
+
+        if(noOfResults.equalsIgnoreCase("0")){
+
+            return null;
+        }
 
         String results[] = new String[resultsArray.length()];
 
@@ -119,11 +126,11 @@ public class FetchTrailerTask extends AsyncTask<String, Void, String[]> {
 
 
             JSONObject atrailer = resultsArray.getJSONObject(i);
-            String key = atrailer.getString("source");
-            String name = atrailer.getString("name");
+            String author = atrailer.getString("author");
+            String content = atrailer.getString("content");
 
-            results[i] = key + "/" + name;
-            Log.v("TRAILER_RESULT", results[i]);
+            results[i] = author + "/" + content;
+            Log.v("REVIEW_RESULT", results[i]);
         }
         return results;
     }
@@ -131,31 +138,20 @@ public class FetchTrailerTask extends AsyncTask<String, Void, String[]> {
     @Override
     protected void onPostExecute(String result[]) {
 
-//        GetTrailerJsonValue results = new GetTrailerJsonValue();
-//        Gson gson = new Gson();
-//
-//        results = gson.fromJson(result,GetTrailerJsonValue.class);
-//
-//        trailerKey = results.key;
         super.onPostExecute(result);
 
         if (result != null) {
-            mTrailerAdapter.clear();
+            mReviewAdapter.clear();
             for (String s : result) {
-                mTrailerAdapter.add(s);
-                Log.v("ADAPTER_ITEM", s);
+                mReviewAdapter.add(s);
+                Log.v("REVIEW_ADAPTER_ITEM",s);
             }
-            mTrailerAdapter.notifyDataSetChanged();
-            Toast.makeText(mContext, "Trailer Shown", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(mContext, "No Trailer Available...", Toast.LENGTH_SHORT).show();
+            mReviewAdapter.notifyDataSetChanged();
+            Toast.makeText(mContext,"Reviews Shown",Toast.LENGTH_SHORT).show();
         }
+        else {
+            Toast.makeText(mContext,"No Reviews Available Currently...",Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
-
-//class GetTrailerJsonValue{
-//
-//    public String key;
-//
-//    GetTrailerJsonValue(){}
-//}

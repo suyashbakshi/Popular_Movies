@@ -112,5 +112,6 @@
     <string name="no_fav_movie_view">Uh Oh, You dont have any favorite movies yet.</string>
     <string name="loading_view">LOADING, PLEASE WAIT...</string>
     <string name="show_review">SHOW REVIEWS</string>
+    <string name="title_activity_trailer_review">TrailerReviewActivity</string>
 
 </resources>
