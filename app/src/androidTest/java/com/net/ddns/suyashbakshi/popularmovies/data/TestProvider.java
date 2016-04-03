@@ -147,7 +147,7 @@ public class TestProvider extends AndroidTestCase {
         long testId = 293660L; // December 21st, 2014
         // content://com.example.android.sunshine.app/weather/94074/20140612
         type = mContext.getContentResolver().getType(
-                MoviesContract.MoviesEntry.buildMovieSortWithId(testSort, testId));
+                MoviesContract.MoviesEntry.buildMovieSortWithMovieId(testSort, testId));
         // vnd.android.cursor.item/com.example.android.sunshine.app/weather/1419120000
         assertEquals("Error: the MovieEntry CONTENT_URI with sort and ID should return MovieEntry.CONTENT_ITEM_TYPE",
                 MoviesContract.MoviesEntry.CONTENT_ITEM_TYPE, type);
@@ -368,7 +368,7 @@ public class TestProvider extends AndroidTestCase {
 
         // Get the joined Weather and Location data with a start date
         movieCursor = mContext.getContentResolver().query(
-                MoviesContract.MoviesEntry.buildMovieSortWithId(
+                MoviesContract.MoviesEntry.buildMovieSortWithMovieId(
                         TestUtilities.TEST_SORT_VALUE, TestUtilities.TEST_MOVIE_ID),
                 null, // leaving "columns" null just returns all the columns.
                 null, // cols for "where" clause
@@ -380,7 +380,7 @@ public class TestProvider extends AndroidTestCase {
 
         // Get the joined Weather data for a specific date
         movieCursor = mContext.getContentResolver().query(
-                MoviesContract.MoviesEntry.buildMovieSortWithId(TestUtilities.TEST_SORT_VALUE, TestUtilities.TEST_MOVIE_ID),
+                MoviesContract.MoviesEntry.buildMovieSortWithMovieId(TestUtilities.TEST_SORT_VALUE, TestUtilities.TEST_MOVIE_ID),
                 null,
                 null,
                 null,

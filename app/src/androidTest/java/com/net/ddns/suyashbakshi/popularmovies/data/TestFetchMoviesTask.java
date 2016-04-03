@@ -29,8 +29,9 @@ public class TestFetchMoviesTask extends AndroidTestCase {
                 MoviesContract.SortEntry.COLUMN_SORT_VALUE+ " = ?",
                 new String[]{ADD_SORT_VALUE});
 
-        FetchMoviesTask fmt = new FetchMoviesTask(getContext(),new GridViewAdapter(getContext(),new ArrayList<String>()));
-        long sortId = fmt.addSortValue(ADD_SORT_VALUE);
+//        FetchMoviesTask fmt = new FetchMoviesTask(getContext(),new GridViewAdapter(getContext(),null,null);
+//        long sortId = fmt.addSortValue(ADD_SORT_VALUE);
+long sortId=1;
 
         // does addLocation return a valid record ID?
         assertFalse("Error: addSortValue returned an invalid ID on insert",
@@ -65,7 +66,7 @@ public class TestFetchMoviesTask extends AndroidTestCase {
                     sortCursor.moveToNext());
 
             // add the location again
-            long newSortId = fmt.addSortValue(ADD_SORT_VALUE);
+            long newSortId = 1;
 
             assertEquals("Error: inserting a sort again should return the same ID",
                     sortId, newSortId);

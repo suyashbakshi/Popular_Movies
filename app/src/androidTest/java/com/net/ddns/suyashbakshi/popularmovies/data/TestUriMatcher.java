@@ -18,7 +18,7 @@ public class TestUriMatcher extends AndroidTestCase {
     // content://com.example.android.sunshine.app/weather"
     private static final Uri TEST_MOVIE_DIR = MoviesContract.MoviesEntry.CONTENT_URI;
     private static final Uri TEST_MOVIE_WITH_SORT_DIR = MoviesContract.MoviesEntry.buildMovieSort(SORT_QUERY);
-    private static final Uri TEST_MOVIE_WITH_SORT_AND_ID_DIR = MoviesContract.MoviesEntry.buildMovieSortWithId(SORT_QUERY, TEST_ID);
+    private static final Uri TEST_MOVIE_WITH_SORT_AND_ID_DIR = MoviesContract.MoviesEntry.buildMovieSortWithMovieId(SORT_QUERY, TEST_ID);
     // content://com.example.android.sunshine.app/location"
     private static final Uri TEST_SORT_DIR = MoviesContract.SortEntry.CONTENT_URI;
 
