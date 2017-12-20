@@ -1,5 +1,6 @@
 # Popular_Movies
 @author Suyash Bakshi
+
 Android app optimized for tablets, to help users discover popular and highly rated movies on the web.
 
 Displays a scrolling grid of movie trailers, launches a details screen whenever a particular movie is selected,
